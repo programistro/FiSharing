@@ -1,0 +1,11 @@
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\bin\Debug\net9.0\FiSharing.Core.deps.json
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\bin\Debug\net9.0\FiSharing.Core.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\bin\Debug\net9.0\FiSharing.Core.pdb
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.AssemblyInfoInputs.cache
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.AssemblyInfo.cs
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.csproj.CoreCompileInputs.cache
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\refint\FiSharing.Core.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\FiSharing.Core.pdb
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Core\obj\Debug\net9.0\ref\FiSharing.Core.dll

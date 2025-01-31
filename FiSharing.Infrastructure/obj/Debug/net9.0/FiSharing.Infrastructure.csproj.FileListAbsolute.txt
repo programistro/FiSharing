@@ -1,0 +1,17 @@
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Infrastructure.deps.json
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Infrastructure.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Infrastructure.pdb
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Core.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Core.pdb
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.AssemblyInfo.cs
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharin.B75BF3B9.Up2Date
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\refint\FiSharing.Infrastructure.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.pdb
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\ref\FiSharing.Infrastructure.dll
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\bin\Debug\net9.0\FiSharing.Infrastructure.runtimeconfig.json
+C:\Users\katana\RiderProjects\FiSharing\FiSharing.Infrastructure\obj\Debug\net9.0\FiSharing.Infrastructure.genruntimeconfig.cache

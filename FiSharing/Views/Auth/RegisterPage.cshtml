@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model AuthViewModel
+
+<style>
+    .small-rounded-select {
+        appearance: none;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        width: 150px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    .small-rounded-select:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(81, 203, 238, 0.5);
+    }
+
+    .small-rounded-select::after {
+        content: '\25BC';
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-20%);
+        color: #333;
+        pointer-events: none;
+    }
+</style>
+
+<div class="row">
+    <div>
+        <section>
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="cardborder-0 shadow rounded-3 overflow-hidden">
+                    <form method="post" asp-action="">
+                        <div class="card-body p-4 p-sm-5">
+                            <h5 class="card-title text-center mb-5 fw-light fs-5">Регистрация</h5>
+                            @* <input class="form-control" autocomplete="name" aria-required="true" placeholder="Имя"/> *@
+                            @* *@
+                            @* <input class="form-control" autocomplete="lastname" aria-required="true" placeholder="Фамилия" style="margin-top: 10px;"/> *@
+
+                            <input class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" 
+                                   style="margin-top: 10px;" asp-for="Email"/>
+
+                            <input class="form-control" autocomplete="password" type="password" aria-required="true" placeholder="Пароль"  
+                                   style="margin-top: 10px;" asp-for="Password"/>
+
+                            <div class="d-grid mb-2" style="margin-top: 10px;">
+                                <button class="btn btn-primary" Color="Color.Primary" type="submit">Зарегистрироваться</button>
+                            </div>
+                            <a>Уже зарегистрированы на сайте?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
