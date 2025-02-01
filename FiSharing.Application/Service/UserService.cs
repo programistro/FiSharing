@@ -1,4 +1,6 @@
-﻿using FiSharing.Core.Models;
+﻿using System.Security.Cryptography;
+using System.Text;
+using FiSharing.Core.Models;
 using FiSharing.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,18 @@ public class UserService : IUserService
 
     public async Task AddAsync(User user)
     {
+        using (SHA256 sha = SHA256.Create())
+        {
+            byte[] hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(user.PasswordHash));
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashValue.Length; i++)
+            {
+                builder.Append(hashValue[i].ToString("x2")); // Преобразуем байты хэша в шестнадцатеричное представление
+            }
+
+            user.PasswordHash = builder.ToString();
+        }
         
         await _userRepository.Add(user);
     }

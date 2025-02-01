@@ -37,18 +37,16 @@
         <section>
             <div class="col-lg-10 col-xl-9 mx-auto">
                 <div class="cardborder-0 shadow rounded-3 overflow-hidden">
-                    <form method="post" asp-action="">
+                    <form method="post" asp-action="Register">
                         <div class="card-body p-4 p-sm-5">
                             <h5 class="card-title text-center mb-5 fw-light fs-5">Регистрация</h5>
-                            @* <input class="form-control" autocomplete="name" aria-required="true" placeholder="Имя"/> *@
-                            @* *@
-                            @* <input class="form-control" autocomplete="lastname" aria-required="true" placeholder="Фамилия" style="margin-top: 10px;"/> *@
-
                             <input class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" 
                                    style="margin-top: 10px;" asp-for="Email"/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
 
                             <input class="form-control" autocomplete="password" type="password" aria-required="true" placeholder="Пароль"  
                                    style="margin-top: 10px;" asp-for="Password"/>
+                            <span asp-validation-for="Password" class="text-danger"></span>
 
                             <div class="d-grid mb-2" style="margin-top: 10px;">
                                 <button class="btn btn-primary" Color="Color.Primary" type="submit">Зарегистрироваться</button>
@@ -61,3 +59,7 @@
         </section>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>

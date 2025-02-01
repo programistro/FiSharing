@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FiSharing.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FiSharing.Controllers;
 
@@ -12,12 +13,13 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-
+    
     public IActionResult Index()
     {
         return View();
     }
 
+    [Authorize(Roles = "admin")]
     public IActionResult Privacy()
     {
         return View();
