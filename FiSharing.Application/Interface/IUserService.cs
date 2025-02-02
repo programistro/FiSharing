@@ -9,6 +9,8 @@ public interface IUserService
     
     Task<IEnumerable<User>> GetAllAsync();
     
+    Task<User> GetByEmailAsync(string email);
+    
     Task AddAsync(User user);
     
     Task UpdateAsync(User user);

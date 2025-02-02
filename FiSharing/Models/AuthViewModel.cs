@@ -12,4 +12,7 @@ public class AuthViewModel
     [Required(ErrorMessage = "Пароль обязателен")]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "Пароль должен быть от 6 до 100 символов")]
     public string Password { get; set; }
+    
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "Пароль должен быть от 6 до 100 символов")]
+    public string? AcceptPassword { get; set; }
 }

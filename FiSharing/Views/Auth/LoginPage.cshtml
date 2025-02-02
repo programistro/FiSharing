@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Регистрация";
+    ViewData["Title"] = "Войти";
 }
 @model AuthViewModel
 
@@ -37,9 +37,9 @@
         <section>
             <div class="col-lg-10 col-xl-9 mx-auto">
                 <div class="cardborder-0 shadow rounded-3 overflow-hidden">
-                    <form method="post" asp-action="Register">
+                    <form method="post" asp-action="Login">
                         <div class="card-body p-4 p-sm-5">
-                            <h5 class="card-title text-center mb-5 fw-light fs-5">Регистрация</h5>
+                            <h5 class="card-title text-center mb-5 fw-light fs-5">Войти</h5>
                             <input class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" 
                                    style="margin-top: 10px;" asp-for="Email"/>
                             <span asp-validation-for="Email" class="text-danger"></span>
@@ -48,14 +48,9 @@
                                    style="margin-top: 10px;" asp-for="Password"/>
                             <span asp-validation-for="Password" class="text-danger"></span>
 
-                            <input class="form-control" autocomplete="password" type="password" aria-required="true" placeholder="Пароль"
-                                   style="margin-top: 10px;" asp-for="AcceptPassword"/>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-
                             <div class="d-grid mb-2" style="margin-top: 10px;">
-                                <button class="btn btn-primary" Color="Color.Primary" type="submit">Зарегистрироваться</button>
+                                <button class="btn btn-primary" Color="Color.Primary" type="submit">Войти</button>
                             </div>
-                            <a asp-action="LoginPage">Уже зарегистрированы на сайте?</a>
                         </div>
                     </form>
                 </div>

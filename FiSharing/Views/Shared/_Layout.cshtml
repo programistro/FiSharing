@@ -30,7 +30,7 @@
                     <li class="nav-item ml-auto" style="margin-right: 5px;">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a class="nav-link text-dark">@User.Identity.Name</a>
+                            <a class="nav-link text-dark" asp-action="Logout" asp-controller="Auth">@User.Identity.Name</a>
                         }
                         else
                         {
