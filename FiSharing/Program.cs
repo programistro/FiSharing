@@ -29,6 +29,8 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDepartamentService, DepartamentService>();
+builder.Services.AddScoped<IDepartamentRepository, DepartamentRepository>();
 
 var app = builder.Build();
 

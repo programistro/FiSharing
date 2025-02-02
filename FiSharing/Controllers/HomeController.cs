@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using FiSharing.Application.Service;
+using FiSharing.Core.Models;
 using FiSharing.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using FiSharing.Models;
@@ -11,12 +13,15 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     
-    private readonly AppDbContext _context;
+    private readonly IDepartamentService _departamentService;
+    
+    private readonly IUserService _userService;
 
-    public HomeController(ILogger<HomeController> logger, AppDbContext context)
+    public HomeController(ILogger<HomeController> logger, IDepartamentService departamentService, IUserService userService)
     {
         _logger = logger;
-        _context = context;
+        _departamentService = departamentService;
+        _userService = userService;
     }
     
     public IActionResult Index()
@@ -45,6 +50,8 @@ public class HomeController : Controller
         
         long size = viewModel.Files.Sum(f => f.Length);
 
+        List<string> files = new List<string>();
+        
         foreach (var formFile in viewModel.Files)
         {
             if (formFile.Length > 0)
@@ -56,9 +63,25 @@ public class HomeController : Controller
                 {
                     await formFile.CopyToAsync(stream);
                 }
+                
+                files.Add(fileName);
             }
         }
-
+        
+        Department department = new()
+        {
+            Name = viewModel.Name,
+            Id = Guid.NewGuid(),
+            PasswordHash = viewModel.Password,
+            PathsToFiles = files,
+            Users = new()
+            {
+                viewModel.User
+            }
+        };
+        
+        await _departamentService.AddAsync(department);
+        
         return View("AdminPage");
     }
 
