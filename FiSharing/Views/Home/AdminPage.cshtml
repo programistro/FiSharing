@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Панель администратора";
+}
+
+@inject AppDbContext _appDbContext
+@using FiSharing.Infrastructure.Data
+@model DeportamentViewModel
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
+    <i class="bi bi-plus-square-fill"></i> Добавить
+</button>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Название депортамента</th>
+        <th>Пользователи</th>
+        <th>Файлы</th>
+        <th>Дейсвтия</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            @foreach (var item in _appDbContext.Departments)
+            {
+                <p>item.Name</p>
+            }
+        </td>
+        <td>
+            
+        </td>
+        <td></td>
+        <td>
+            <button type="button"  data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary">Изменить</button>
+            <button class="btn btn-primary" style="margin-left: 5px;">Удалить</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Изменить</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            @* <form enctype="multipart/form-data" method="post" asp-action="AddFile"> *@
+            @*     <div class="modal-body"> *@
+            @*         <div class="mb-3"> *@
+            @*             <input type="file" class="form-control" aria-label="Выберите файл" required> *@
+            @*             <div class="invalid-feedback">Файл не выбран</div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @*     <div class="modal-footer"> *@
+            @*         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button> *@
+            @*         <button type="submit" class="btn btn-primary">Сохранить</button> *@
+            @*     </div> *@
+            @* </form> *@
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Добавить файлы</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form enctype="multipart/form-data" method="post" asp-action="AddDepartament" asp-controller="Home">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
+                        <div class="invalid-feedback">Файл не выбран</div>
+                        
+                        <input type="text" class="form-control" aria-label="Название депортамента" asp-for="Name" required/>
+                        
+                        <input type="password" class="form-control" aria-label="Пароль для депортамента" asp-for="Password"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

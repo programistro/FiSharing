@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FiSharing.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250201214259_Initial")]
+    [Migration("20250202165432_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,6 +31,14 @@ namespace FiSharing.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("PathsToFiles")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("Users")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

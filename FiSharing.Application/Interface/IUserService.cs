@@ -16,4 +16,6 @@ public interface IUserService
     Task UpdateAsync(User user);
     
     Task DeleteAsync(Guid guid);
+    
+    Task<string> CreateHashPasswordAsync(string password);
 }

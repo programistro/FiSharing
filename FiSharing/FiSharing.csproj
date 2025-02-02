@@ -21,4 +21,8 @@
       <ProjectReference Include="..\FiSharing.Infrastructure\FiSharing.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="files\" />
+    </ItemGroup>
+
 </Project>

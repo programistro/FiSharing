@@ -27,19 +27,6 @@ public class UserService : IUserService
 
     public async Task AddAsync(User user)
     {
-        using (SHA256 sha = SHA256.Create())
-        {
-            byte[] hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(user.PasswordHash));
-
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashValue.Length; i++)
-            {
-                builder.Append(hashValue[i].ToString("x2")); // Преобразуем байты хэша в шестнадцатеричное представление
-            }
-
-            user.PasswordHash = builder.ToString();
-        }
-        
         await _userRepository.Add(user);
     }
 
@@ -56,5 +43,21 @@ public class UserService : IUserService
     public async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _userRepository.GetAllAsync();
+    }
+
+    public async Task<string> CreateHashPasswordAsync(string password)
+    {
+        using (SHA256 sha = SHA256.Create())
+        {
+            byte[] hashValue = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashValue.Length; i++)
+            {
+                builder.Append(hashValue[i].ToString("x2")); // Преобразуем байты хэша в шестнадцатеричное представление
+            }
+
+            return builder.ToString();
+        }
     }
 }

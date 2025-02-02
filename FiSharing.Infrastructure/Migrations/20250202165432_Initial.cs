@@ -57,7 +57,9 @@ namespace FiSharing.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    PathsToFiles = table.Column<string>(type: "TEXT", nullable: false),
+                    Users = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
