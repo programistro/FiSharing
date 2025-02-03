@@ -11,4 +11,6 @@ public class DeportamentViewModel
     public string Password { get; set; }
     
     public string? User { get; set; }
+    
+    public string? FileName { get; set; }
 }

@@ -104,6 +104,28 @@ public class HomeController : Controller
         return View("AdminPage");
     }
 
+    [Authorize(Roles = "admin")]
+    [HttpPost]
+    public async Task<IActionResult> RemoveFileFromDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+        
+        if (departament != null)
+        {
+            if (departament.PathsToFiles.Contains(viewModel.FileName))
+            {
+                departament.PathsToFiles.Remove(viewModel.FileName);
+                await _departamentService.UpdateAsync(departament);
+            }
+            else
+            {
+                return View("AdminPage");        
+            }
+        }
+        
+        return View("AdminPage");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

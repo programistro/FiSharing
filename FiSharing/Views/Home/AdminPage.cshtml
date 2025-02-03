@@ -54,8 +54,10 @@
                 </details>
             </td>
             <td>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary" 
+                <button type="button" data-bs-toggle="modal" data-bs-target="#addFileModal" class="btn btn-primary" 
                         onclick="setDepartmentName('@department.Name')">Добавить файлы</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#removeFileModal" class="btn btn-primary"
+                        onclick="setDepartmentName('@department.Name')">Удалить файлы</button>
                 <button class="btn btn-primary" style="margin-left: 5px;">Удалить</button>
             </td>
         </tr>
@@ -63,11 +65,41 @@
     </tbody>
 </table>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="removeFileModal" tabindex="-1" aria-labelledby="removeFileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Изменить</h5>
+                <h5 class="modal-title" id="removeFileModalLabel">Изменить</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form enctype="multipart/form-data" method="post" asp-action="RemoveFileFromDepartament" asp-controller="Home">
+                <input type="hidden" id="departmentNameInput" asp-for="Name" />
+                <div class="modal-body">
+                    @* <div class="mb-3"> *@
+                    @*     <ul class="list-group"> *@
+                    @*         <li class="list-group-item"> *@
+                    @*             <input class="form-check-input me-1" type="checkbox" value="" aria-label="..."> *@
+                    @*             First checkbox *@
+                    @*         </li> *@
+                    @*     </ul> *@
+                    @* </div> *@
+                    <input class="form-control" aria-required="true" placeholder="Напишите название файла, чтобы его удалить"
+                           style="margin-top: 10px;" asp-for="FileName"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFileModalLabel">Изменить</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <form enctype="multipart/form-data" method="post" asp-action="AddFileToDepartament" asp-controller="Home">
@@ -82,11 +114,6 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
-                <script>
-                    function setDepartmentName(name) {
-                        document.getElementById('departmentNameInput').value = name;
-                    }
-                </script>
             </form>
         </div>
     </div>
@@ -143,6 +170,12 @@
 @*         document.body.classList.toggle('dark-theme'); *@
 @*     }); *@
 @* </script> *@
+
+<script>
+    function setDepartmentName(name) {
+        document.getElementById('departmentNameInput').value = name;
+    }
+</script>
 
 <style>
     table {
