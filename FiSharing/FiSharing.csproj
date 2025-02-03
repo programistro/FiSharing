@@ -25,4 +25,8 @@
       <Folder Include="files\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <TypeScriptCompile Include="wwwroot\css\table-style.css" />
+    </ItemGroup>
+
 </Project>

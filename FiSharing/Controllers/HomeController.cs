@@ -85,6 +85,25 @@ public class HomeController : Controller
         return View("AdminPage");
     }
 
+    [Authorize(Roles = "admin")]
+    [HttpPost]
+    public async Task<IActionResult> AddFileToDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        if (departament != null)
+        {
+            foreach (var item in viewModel.Files)
+            {
+                departament.PathsToFiles.Add(item.FileName);
+            }
+            
+            await _departamentService.UpdateAsync(departament);
+        }
+        
+        return View("AdminPage");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

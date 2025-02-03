@@ -2,41 +2,64 @@
     ViewData["Title"] = "Панель администратора";
 }
 
-@inject AppDbContext _appDbContext
+@inject AppDbContext _context
 @using FiSharing.Infrastructure.Data
 @model DeportamentViewModel
+
+<link rel="stylesheet" href="css/table-style.css"/>
+<link rel="stylesheet" href="js/table.js"/>
 
 <button type="button" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
     <i class="bi bi-plus-square-fill"></i> Добавить
 </button>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
     <tr>
         <th>Название депортамента</th>
         <th>Пользователи</th>
         <th>Файлы</th>
-        <th>Дейсвтия</th>
-        <th></th>
+        <th>Действия</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>
-            @foreach (var item in _appDbContext.Departments)
-            {
-                <p>item.Name</p>
-            }
-        </td>
-        <td>
-            
-        </td>
-        <td></td>
-        <td>
-            <button type="button"  data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary">Изменить</button>
-            <button class="btn btn-primary" style="margin-left: 5px;">Удалить</button>
-        </td>
-    </tr>
+    @foreach (var department in _context.Departments)
+    {
+        <tr>
+            <td>@department.Name</td>
+            <td>
+                <details>
+                    <summary>Подробнее</summary>
+                    <div class="details-content">
+                        <ul>
+                            @foreach (var user in department.Users)
+                            {
+                                <li>@user</li>
+                            }
+                        </ul>
+                    </div>
+                </details>
+            </td>
+            <td>
+                <details>
+                    <summary>Подробнее</summary>
+                    <div class="details-content">
+                        <ul>
+                            @foreach (var file in department.PathsToFiles)
+                            {
+                                <li>@file</li>
+                            }
+                        </ul>
+                    </div>
+                </details>
+            </td>
+            <td>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary" 
+                        onclick="setDepartmentName('@department.Name')">Добавить файлы</button>
+                <button class="btn btn-primary" style="margin-left: 5px;">Удалить</button>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 
@@ -47,18 +70,24 @@
                 <h5 class="modal-title" id="editModalLabel">Изменить</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            @* <form enctype="multipart/form-data" method="post" asp-action="AddFile"> *@
-            @*     <div class="modal-body"> *@
-            @*         <div class="mb-3"> *@
-            @*             <input type="file" class="form-control" aria-label="Выберите файл" required> *@
-            @*             <div class="invalid-feedback">Файл не выбран</div> *@
-            @*         </div> *@
-            @*     </div> *@
-            @*     <div class="modal-footer"> *@
-            @*         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button> *@
-            @*         <button type="submit" class="btn btn-primary">Сохранить</button> *@
-            @*     </div> *@
-            @* </form> *@
+            <form enctype="multipart/form-data" method="post" asp-action="AddFileToDepartament" asp-controller="Home">
+                <input type="hidden" id="departmentNameInput" asp-for="Name" />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
+                        <div class="invalid-feedback">Файл не выбран</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+                <script>
+                    function setDepartmentName(name) {
+                        document.getElementById('departmentNameInput').value = name;
+                    }
+                </script>
+            </form>
         </div>
     </div>
 </div>
@@ -76,9 +105,11 @@
                         <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
                         <div class="invalid-feedback">Файл не выбран</div>
                         
-                        <input type="text" class="form-control" aria-label="Название депортамента" asp-for="Name" required/>
+                        <input type="text" class="form-control" aria-label="Название депортамента" asp-for="Name" required style="margin-top: 5px;"/>
                         
-                        <input type="password" class="form-control" aria-label="Пароль для депортамента" asp-for="Password"/>
+                        <input type="password" class="form-control" aria-label="Пароль для депортамента" asp-for="Password" style="margin-top: 5px;"/>
+                        
+                        <input type="hidden" asp-for="User" value="@User.Identity.Name" style="margin-top: 5px;"/>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -89,3 +120,121 @@
         </div>
     </div>
 </div>
+
+@* <script> *@
+@*     // Добавление кнопки переключения темы *@
+@*     const themeToggle = document.createElement('button'); *@
+@*     themeToggle.textContent = '🌓'; *@
+@*     themeToggle.style.cssText = ` *@
+@*     position: fixed; *@
+@*     top: 20px; *@
+@*     right: 20px; *@
+@*     padding: 8px 12px; *@
+@*     border-radius: 50%; *@
+@*     border: none; *@
+@*     background: #007bff; *@
+@*     color: white; *@
+@*     cursor: pointer; *@
+@*     box-shadow: 0 2px 4px rgba(0,0,0,0.2); *@
+@* `; *@
+@*     document.body.appendChild(themeToggle); *@
+@* *@
+@*     themeToggle.addEventListener('click', () => { *@
+@*         document.body.classList.toggle('dark-theme'); *@
+@*     }); *@
+@* </script> *@
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-family: 'Arial', sans-serif;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+        background-color: #fff;
+        transition: background-color 0.3s ease;
+    }
+
+    td:hover {
+        background-color: #f8f9fa;
+    }
+
+    .details-content {
+        margin-top: 10px;
+        padding-left: 15px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-out;
+    }
+
+    details[open] .details-content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .summary {
+        cursor: pointer;
+        color: #333;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .summary:hover {
+        background-color: #f0f0f0;
+    }
+
+    .summary::marker {
+        content: '+ ';
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .details[open] .summary::marker {
+        content: '- ';
+    }
+
+    .details-content ul {
+        list-style-type: none;
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .details-content li {
+        color: #666;
+        padding: 4px 0;
+        border-bottom: 1px dashed #eee;
+    }
+
+    .details-content li:last-child {
+        border-bottom: none;
+    }
+
+    /* Темная тема */
+    body.dark-theme {
+        --bg-color: #1a1a1a;
+        --text-color: #fff;
+        --hover-bg: #2d2d2d;
+    }
+
+    body.dark-theme th, body.dark-theme td {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    body.dark-theme td:hover {
+        background-color: var(--hover-bg);
+    }
+
+    body.dark-theme .summary:hover {
+        background-color: #333;
+    }
+</style>
