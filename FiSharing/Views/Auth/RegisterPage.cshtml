@@ -56,6 +56,10 @@
                                 <button class="btn btn-primary" Color="Color.Primary" type="submit">Зарегистрироваться</button>
                             </div>
                             <a asp-action="LoginPage">Уже зарегистрированы на сайте?</a>
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <span class="text-danger">@TempData["ErrorMessage"]</span>
+                            }
                         </div>
                     </form>
                 </div>

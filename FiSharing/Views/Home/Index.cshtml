@@ -1,9 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using FiSharing.Infrastructure.Data
+@using Microsoft.EntityFrameworkCore
+@{
+    ViewData["Title"] = "Домашняя страница";
 }
+@inject AppDbContext _context
+@model DeportamentViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    var user = _context.Users.FirstOrDefault(x => x.Email == User.Identity.Name);
 
+    if (user != null)
+    {
+        if (!string.IsNullOrEmpty(user.Departament))
+        {
+            <div class="row">
+                <div>
+                    <section>
+                        <div class="col-lg-10 col-xl-9 mx-auto">
+                            <div class="cardborder-0 shadow rounded-3 overflow-hidden">
+                                <form method="post" asp-action="DownloadFileDeportament">
+                                    <div class="card-body p-4 p-sm-5">
+                                        <h5 class="card-title text-center mb-5 fw-light fs-5">@user.Departament</h5>
+
+                                        <input type="hidden" id="departmentNameInput" asp-for="Name" value="@user.Departament"/>
+                                        
+                                        @foreach (var item in _context.Departments.FirstOrDefault(x => x.Name == user.Departament).PathsToFiles)
+                                        {
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       name="SelectedFiles"
+                                                       value="@item">
+                                                <label class="form-check-label">@item</label>
+                                            </div>
+                                        }
+
+                                        <div class="d-grid mb-2" style="margin-top: 10px;">
+                                            <button class="btn btn-primary" Color="Color.Primary" type="submit">Скачать</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        }
+        else
+        {
+            
+        }
+    }
+}

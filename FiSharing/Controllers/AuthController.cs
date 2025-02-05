@@ -36,10 +36,11 @@ public class AuthController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(AuthViewModel viewModel)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || viewModel.Password != viewModel.AcceptPassword)
+        {
+            TempData["ErrorMessage"] = "Не верные данные для входа";
            return RedirectToAction("RegisterPage");
-        if (viewModel.Password != viewModel.AcceptPassword)
-            return BadRequest();
+        }
             
         User user = new()
         {
@@ -51,29 +52,32 @@ public class AuthController : Controller
             
         await _userService.AddAsync(user);
             
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.Email),
-            new Claim(ClaimTypes.Role, user.Role),
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); 
-        var principal = new ClaimsPrincipal(identity);
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-        {
-            ExpiresUtc = DateTime.UtcNow.AddMinutes(120),
-            IsPersistent = true
-        });
-        return RedirectToAction("Index", "Home");
+        // var claims = new List<Claim>
+        // {
+        //     new Claim(ClaimTypes.NameIdentifier, user.Id),
+        //     new Claim(ClaimTypes.Name, user.Email),
+        //     new Claim(ClaimTypes.Role, user.Role),
+        // };
+        //
+        // var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); 
+        // var principal = new ClaimsPrincipal(identity);
+        //
+        // await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+        // {
+        //     ExpiresUtc = DateTime.UtcNow.AddMinutes(120),
+        //     IsPersistent = true
+        // });
+        return RedirectToAction("AdminPage", "Home");
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(AuthViewModel viewModel)
     {
         if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = "Не верные данные для входа";
             return RedirectToAction("LoginPage");
+        }
 
         if (viewModel.Email == "admin@gmail.com" && viewModel.Password == "@admin123")
         {

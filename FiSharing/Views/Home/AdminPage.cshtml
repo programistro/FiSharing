@@ -10,8 +10,18 @@
 <link rel="stylesheet" href="js/table.js"/>
 
 <button type="button" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
-    <i class="bi bi-plus-square-fill"></i> Добавить
+    <i class="bi bi-plus-square-fill"></i> Добавить департамент
 </button>
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#removeDeportamentModal" class="btn btn-primary">
+    <i class="bi bi-plus-square-fill"></i> Удалить департамент
+</button>
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#addUserDeportamentModal" class="btn btn-primary">
+    Добавить пользователя в депортамент
+</button>
+
+<a class="btn btn-primary" asp-action="RegisterPage" asp-controller="Auth">Зарегистрировать пользователя</a>
 
 <table class="table table-striped">
     <thead>
@@ -58,7 +68,6 @@
                         onclick="setDepartmentName('@department.Name')">Добавить файлы</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#removeFileModal" class="btn btn-primary"
                         onclick="setDepartmentName('@department.Name')">Удалить файлы</button>
-                <button class="btn btn-primary" style="margin-left: 5px;">Удалить</button>
             </td>
         </tr>
     }
@@ -75,16 +84,29 @@
             <form enctype="multipart/form-data" method="post" asp-action="RemoveFileFromDepartament" asp-controller="Home">
                 <input type="hidden" id="departmentNameInput" asp-for="Name" />
                 <div class="modal-body">
-                    @* <div class="mb-3"> *@
-                    @*     <ul class="list-group"> *@
-                    @*         <li class="list-group-item"> *@
-                    @*             <input class="form-check-input me-1" type="checkbox" value="" aria-label="..."> *@
-                    @*             First checkbox *@
-                    @*         </li> *@
-                    @*     </ul> *@
-                    @* </div> *@
                     <input class="form-control" aria-required="true" placeholder="Напишите название файла, чтобы его удалить"
                            style="margin-top: 10px;" asp-for="FileName"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeDeportamentModal" tabindex="-1" aria-labelledby="removeDeportamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeDeportamentModalLabel">Изменить</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form enctype="multipart/form-data" method="post" asp-action="RemoveDepartament" asp-controller="Home">
+                <div class="modal-body">
+                    <input class="form-control" aria-required="true" placeholder="Напишите название депортамента, чтобы его удалить"
+                           style="margin-top: 10px;" asp-for="Name"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -148,28 +170,29 @@
     </div>
 </div>
 
-@* <script> *@
-@*     // Добавление кнопки переключения темы *@
-@*     const themeToggle = document.createElement('button'); *@
-@*     themeToggle.textContent = '🌓'; *@
-@*     themeToggle.style.cssText = ` *@
-@*     position: fixed; *@
-@*     top: 20px; *@
-@*     right: 20px; *@
-@*     padding: 8px 12px; *@
-@*     border-radius: 50%; *@
-@*     border: none; *@
-@*     background: #007bff; *@
-@*     color: white; *@
-@*     cursor: pointer; *@
-@*     box-shadow: 0 2px 4px rgba(0,0,0,0.2); *@
-@* `; *@
-@*     document.body.appendChild(themeToggle); *@
-@* *@
-@*     themeToggle.addEventListener('click', () => { *@
-@*         document.body.classList.toggle('dark-theme'); *@
-@*     }); *@
-@* </script> *@
+<div class="modal fade" id="addUserDeportamentModal" tabindex="-1" aria-labelledby="addUserDeportamentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserDeportamentModalLabel">Добавить пользователя в депортмаент</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form method="post" asp-action="AddUserToDepartament" asp-controller="Home">
+                <div class="modal-body">
+                    <input class="form-control" aria-required="true" placeholder="Депортамент"
+                           style="margin-top: 10px;" asp-for="Name" required/>
+
+                    <input class="form-control" aria-required="true" placeholder="Email пользователя"
+                           style="margin-top: 10px;" asp-for="User" required/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     function setDepartmentName(name) {

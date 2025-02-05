@@ -13,4 +13,6 @@ public class DeportamentViewModel
     public string? User { get; set; }
     
     public string? FileName { get; set; }
+    
+    public List<string> SelectedFiles { get; set; } = new ();
 }

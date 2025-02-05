@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using FiSharing.Application.Service;
 using FiSharing.Core.Models;
 using FiSharing.Infrastructure.Data;
@@ -124,6 +125,77 @@ public class HomeController : Controller
         }
         
         return View("AdminPage");
+    }
+
+    [Authorize(Roles = "admin")]
+    [HttpPost]
+    public async Task<IActionResult> RemoveDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        if (departament != null)
+        {
+            await _departamentService.DeleteAsync(departament.Id);
+        }
+        
+        return View("AdminPage");
+    }
+
+    [Authorize(Roles = "admin")]
+    [HttpPost]
+    public async Task<IActionResult> AddUserToDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        var user = await _userService.GetByEmailAsync(viewModel.User);
+
+        if (departament != null && user != null)
+        {
+            departament.Users.Add(user.Email);
+            user.Departament = departament.Name;
+            
+            await _userService.UpdateAsync(user);
+            await _departamentService.UpdateAsync(departament);
+            
+            return View("AdminPage");
+        }
+        else
+        {
+            
+            return View("AdminPage");
+        }
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> DownloadFileDeportament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        if (departament != null)
+        {
+            var zipName = $"файлы - {departament.Name}.zip";  
+            using (MemoryStream ms = new MemoryStream())  
+            {  
+                using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, true))  
+                {  
+                    //QUery the Products table and get all image content  
+                    viewModel.SelectedFiles.ToList().ForEach(file =>  
+                    {  
+                        var entry = zip.CreateEntry(file);
+                        
+                        using (var fileStream = new MemoryStream(System.IO.File.ReadAllBytes($"files/{file}")))  
+                        using (var entryStream = entry.Open())  
+                        {  
+                            fileStream.CopyTo(entryStream);  
+                        }  
+                    });  
+                }   
+                return File( ms.ToArray(), "application/zip", zipName);   
+            }
+        }
+
+        return View("Index");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -36,7 +36,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Домашняя страница</a>
                     </li>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                     {
@@ -52,7 +52,7 @@
                         }
                         else
                         {
-                            <a class="nav-link text-dark" asp-action="RegisterPage" asp-controller="Auth">Регистрация</a>
+                            <a class="nav-link text-dark" asp-action="LoginPage" asp-controller="Auth">Авторизация</a>
                         }
                     </li>
                 </ul>
