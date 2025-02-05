@@ -81,7 +81,7 @@
                 <h5 class="modal-title" id="removeFileModalLabel">Изменить</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form enctype="multipart/form-data" method="post" asp-action="RemoveFileFromDepartament" asp-controller="Home">
+            <form enctype="multipart/form-data" method="post" asp-action="RemoveFileFromDepartament" asp-controller="Admin">
                 <input type="hidden" id="departmentNameInput" asp-for="Name" />
                 <div class="modal-body">
                     <input class="form-control" aria-required="true" placeholder="Напишите название файла, чтобы его удалить"
@@ -100,10 +100,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="removeDeportamentModalLabel">Изменить</h5>
+                <h5 class="modal-title" id="removeDeportamentModalLabel">Удалить департамент</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form enctype="multipart/form-data" method="post" asp-action="RemoveDepartament" asp-controller="Home">
+            <form enctype="multipart/form-data" method="post" asp-action="RemoveDepartament" asp-controller="Admin">
                 <div class="modal-body">
                     <input class="form-control" aria-required="true" placeholder="Напишите название депортамента, чтобы его удалить"
                            style="margin-top: 10px;" asp-for="Name"/>
@@ -124,7 +124,7 @@
                 <h5 class="modal-title" id="addFileModalLabel">Изменить</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form enctype="multipart/form-data" method="post" asp-action="AddFileToDepartament" asp-controller="Home">
+            <form enctype="multipart/form-data" method="post" asp-action="AddFileToDepartament" asp-controller="Admin">
                 <input type="hidden" id="departmentNameInput" asp-for="Name" />
                 <div class="modal-body">
                     <div class="mb-3">
@@ -145,20 +145,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Добавить файлы</h5>
+                <h5 class="modal-title" id="addModalLabel">Добавить депортамент</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form enctype="multipart/form-data" method="post" asp-action="AddDepartament" asp-controller="Home">
+            <form enctype="multipart/form-data" method="post" asp-action="AddDepartament" asp-controller="Admin">
                 <div class="modal-body">
                     <div class="mb-3">
                         <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
                         <div class="invalid-feedback">Файл не выбран</div>
                         
-                        <input type="text" class="form-control" aria-label="Название депортамента" asp-for="Name" required style="margin-top: 5px;"/>
+                        <input type="text" class="form-control" placeholder="Название депортамента" asp-for="Name" required style="margin-top: 5px;"/>
                         
-                        <input type="password" class="form-control" aria-label="Пароль для депортамента" asp-for="Password" style="margin-top: 5px;"/>
+                        <input type="password" class="form-control" placeholder="Пароль для депортамента" asp-for="Password" style="margin-top: 5px;"/>
                         
-                        <input type="hidden" asp-for="User" value="@User.Identity.Name" style="margin-top: 5px;"/>
+                        <input type="hidden" asp-for="User" value="@User.Identity.Name"/>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -177,7 +177,7 @@
                 <h5 class="modal-title" id="addUserDeportamentModalLabel">Добавить пользователя в депортмаент</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
-            <form method="post" asp-action="AddUserToDepartament" asp-controller="Home">
+            <form method="post" asp-action="AddUserToDepartament" asp-controller="Admin">
                 <div class="modal-body">
                     <input class="form-control" aria-required="true" placeholder="Депортамент"
                            style="margin-top: 10px;" asp-for="Name" required/>

@@ -1,4 +1,7 @@
-﻿using FiSharing.Application.Service;
+﻿using System.IO.Compression;
+using FiSharing.Application.Service;
+using FiSharing.Core.Models;
+using FiSharing.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,5 +21,124 @@ public class AdminController : Controller
         _logger = logger;
         _departamentService = departamentService;
         _userService = userService;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> AddDepartament(DeportamentViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+            return View("AdminPage", viewModel);
+        
+        long size = viewModel.Files.Sum(f => f.Length);
+
+        List<string> files = new List<string>();
+        
+        foreach (var formFile in viewModel.Files)
+        {
+            if (formFile.Length > 0)
+            {
+                // var filePath = Path.GetTempFileName();
+                var fileName = formFile.FileName;
+
+                using (var stream = System.IO.File.Create($@"files/{fileName}"))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+                
+                files.Add(fileName);
+            }
+        }
+        
+        Department department = new()
+        {
+            Name = viewModel.Name,
+            Id = Guid.NewGuid(),
+            PasswordHash = viewModel.Password,
+            PathsToFiles = files,
+            Users = new()
+            {
+                viewModel.User
+            }
+        };
+        
+        await _departamentService.AddAsync(department);
+        
+        return View("AdminPage");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddFileToDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        if (departament != null)
+        {
+            foreach (var item in viewModel.Files)
+            {
+                departament.PathsToFiles.Add(item.FileName);
+            }
+            
+            await _departamentService.UpdateAsync(departament);
+        }
+        
+        return View("AdminPage");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveFileFromDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+        
+        if (departament != null)
+        {
+            if (departament.PathsToFiles.Contains(viewModel.FileName))
+            {
+                departament.PathsToFiles.Remove(viewModel.FileName);
+                await _departamentService.UpdateAsync(departament);
+            }
+            else
+            {
+                return View("AdminPage");        
+            }
+        }
+        
+        return View("AdminPage");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        if (departament != null)
+        {
+            await _departamentService.DeleteAsync(departament.Id);
+        }
+        
+        return View("AdminPage");
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> AddUserToDepartament(DeportamentViewModel viewModel)
+    {
+        var departament = await _departamentService.GetByNameAsync(viewModel.Name);
+
+        var user = await _userService.GetByEmailAsync(viewModel.User);
+
+        if (departament != null && user != null)
+        {
+            departament.Users.Add(user.Email);
+            user.Departament = departament.Name;
+            
+            await _userService.UpdateAsync(user);
+            await _departamentService.UpdateAsync(departament);
+            
+            return View("AdminPage");
+        }
+        else
+        {
+            
+            return View("AdminPage");
+        }
     }
 }
