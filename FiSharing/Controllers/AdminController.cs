@@ -27,7 +27,7 @@ public class AdminController : Controller
     public async Task<IActionResult> AddDepartament(DeportamentViewModel viewModel)
     {
         if (!ModelState.IsValid)
-            return View("AdminPage", viewModel);
+            return RedirectToAction("AdminPage", "Home", viewModel);
         
         long size = viewModel.Files.Sum(f => f.Length);
 
@@ -63,9 +63,9 @@ public class AdminController : Controller
         
         await _departamentService.AddAsync(department);
         
-        return View("AdminPage");
+        return RedirectToAction("AdminPage", "Home");
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> AddFileToDepartament(DeportamentViewModel viewModel)
     {
@@ -81,7 +81,7 @@ public class AdminController : Controller
             await _departamentService.UpdateAsync(departament);
         }
         
-        return View("AdminPage");
+        return RedirectToAction("AdminPage", "Home");
     }
 
     [HttpPost]
@@ -98,11 +98,11 @@ public class AdminController : Controller
             }
             else
             {
-                return View("AdminPage");        
+                return RedirectToAction("AdminPage", "Home");
             }
         }
         
-        return View("AdminPage");
+        return RedirectToAction("AdminPage", "Home");
     }
 
     [HttpPost]
@@ -115,7 +115,7 @@ public class AdminController : Controller
             await _departamentService.DeleteAsync(departament.Id);
         }
         
-        return View("AdminPage");
+        return RedirectToAction("AdminPage", "Home");
     }
     
     [HttpPost]
@@ -133,12 +133,11 @@ public class AdminController : Controller
             await _userService.UpdateAsync(user);
             await _departamentService.UpdateAsync(departament);
             
-            return View("AdminPage");
+            return RedirectToAction("AdminPage", "Home");
         }
         else
-        {
-            
-            return View("AdminPage");
+        {   
+            return RedirectToAction("AdminPage", "Home");
         }
     }
 }
