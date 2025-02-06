@@ -67,7 +67,7 @@
                 <button type="button" data-bs-toggle="modal" data-bs-target="#addFileModal" class="btn btn-primary" 
                         onclick="setDepartmentName('@department.Name')">Добавить файлы</button>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#removeFileModal" class="btn btn-primary"
-                        onclick="setDepartmentName('@department.Name')">Удалить файлы</button>
+                        onclick="setDepartmentNameForRemove('@department.Name')">Удалить файлы</button>
             </td>
         </tr>
     }
@@ -82,7 +82,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <form enctype="multipart/form-data" method="post" asp-action="RemoveFileFromDepartament" asp-controller="Admin">
-                <input type="hidden" id="departmentNameInput" asp-for="Name" />
+                <input type="hidden" id="departmentNameInputRemove" asp-for="Name" />
                 <div class="modal-body">
                     <input class="form-control" aria-required="true" placeholder="Напишите название файла, чтобы его удалить"
                            style="margin-top: 10px;" asp-for="FileName"/>
@@ -151,7 +151,7 @@
             <form enctype="multipart/form-data" method="post" asp-action="AddDepartament" asp-controller="Admin">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
+                        <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files">
                         <div class="invalid-feedback">Файл не выбран</div>
                         
                         <input type="text" class="form-control" placeholder="Название депортамента" asp-for="Name" required style="margin-top: 5px;"/>
@@ -197,6 +197,9 @@
 <script>
     function setDepartmentName(name) {
         document.getElementById('departmentNameInput').value = name;
+    }
+    function setDepartmentNameForRemove(name) {
+        document.getElementById('departmentNameInputRemove').value = name;
     }
 </script>
 

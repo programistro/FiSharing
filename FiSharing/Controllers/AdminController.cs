@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FiSharing.Controllers;
 
-[Authorize(Roles = "admin")]
+[Authorize]
 public class AdminController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -23,6 +23,7 @@ public class AdminController : Controller
         _userService = userService;
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> AddDepartament(DeportamentViewModel viewModel)
     {
@@ -66,8 +67,9 @@ public class AdminController : Controller
         return RedirectToAction("AdminPage", "Home");
     }
     
+    [Authorize]
     [HttpPost]
-    public async Task<IActionResult> AddFileToDepartament(DeportamentViewModel viewModel)
+    public async Task<IActionResult> AddFileToDepartament(DeportamentViewModel viewModel, bool isAdmin = true)
     {
         var departament = await _departamentService.GetByNameAsync(viewModel.Name);
 
@@ -80,12 +82,20 @@ public class AdminController : Controller
             
             await _departamentService.UpdateAsync(departament);
         }
-        
-        return RedirectToAction("AdminPage", "Home");
+
+        if (isAdmin)
+        {
+            return RedirectToAction("AdminPage", "Home");
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
     }
 
+    [Authorize]
     [HttpPost]
-    public async Task<IActionResult> RemoveFileFromDepartament(DeportamentViewModel viewModel)
+    public async Task<IActionResult> RemoveFileFromDepartament(DeportamentViewModel viewModel, bool isAdmin = true)
     {
         var departament = await _departamentService.GetByNameAsync(viewModel.Name);
         
@@ -96,15 +106,19 @@ public class AdminController : Controller
                 departament.PathsToFiles.Remove(viewModel.FileName);
                 await _departamentService.UpdateAsync(departament);
             }
-            else
-            {
-                return RedirectToAction("AdminPage", "Home");
-            }
         }
-        
-        return RedirectToAction("AdminPage", "Home");
+
+        if (isAdmin)
+        {
+            return RedirectToAction("AdminPage", "Home");
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> RemoveDepartament(DeportamentViewModel viewModel)
     {
@@ -118,6 +132,7 @@ public class AdminController : Controller
         return RedirectToAction("AdminPage", "Home");
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> AddUserToDepartament(DeportamentViewModel viewModel)
     {
