@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Runtime.Intrinsics.X86;
 using FiSharing.Application.Service;
 using FiSharing.Core.Models;
 using FiSharing.Models;
@@ -27,26 +28,25 @@ public class AdminController : Controller
     [HttpPost]
     public async Task<IActionResult> AddDepartament(DeportamentViewModel viewModel)
     {
-        if (!ModelState.IsValid)
-            return RedirectToAction("AdminPage", "Home", viewModel);
+        Directory.CreateDirectory($"files/{viewModel.Name}");
         
-        long size = viewModel.Files.Sum(f => f.Length);
-
         List<string> files = new List<string>();
-        
-        foreach (var formFile in viewModel.Files)
-        {
-            if (formFile.Length > 0)
-            {
-                // var filePath = Path.GetTempFileName();
-                var fileName = formFile.FileName;
 
-                using (var stream = System.IO.File.Create($@"files/{fileName}"))
+        if (viewModel.Files != null && viewModel.Files.Count > 0)
+        {
+            foreach (var formFile in viewModel.Files)
+            {
+                if (formFile.Length > 0)
                 {
-                    await formFile.CopyToAsync(stream);
-                }
+                    var fileName = formFile.FileName;
+
+                    using (var stream = System.IO.File.Create($@"files/{viewModel.Name}/{fileName}"))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
                 
-                files.Add(fileName);
+                    files.Add(fileName);
+                }
             }
         }
         
@@ -75,6 +75,25 @@ public class AdminController : Controller
 
         if (departament != null)
         {
+            long size = viewModel.Files.Sum(f => f.Length);
+
+            List<string> files = new List<string>();
+        
+            foreach (var formFile in viewModel.Files)
+            {
+                if (formFile.Length > 0)
+                {
+                    var fileName = formFile.FileName;
+
+                    using (var stream = System.IO.File.Create($@"files/{viewModel.Name}/{fileName}"))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                
+                    files.Add(fileName);
+                }
+            }
+            
             foreach (var item in viewModel.Files)
             {
                 departament.PathsToFiles.Add(item.FileName);
@@ -105,6 +124,11 @@ public class AdminController : Controller
             {
                 departament.PathsToFiles.Remove(viewModel.FileName);
                 await _departamentService.UpdateAsync(departament);
+
+                if (System.IO.File.Exists($@"files/{viewModel.Name}/{viewModel.FileName}"))
+                {
+                    System.IO.File.Delete($@"files/{viewModel.Name}/{viewModel.FileName}");
+                }
             }
         }
 

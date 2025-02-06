@@ -19,12 +19,12 @@
                     <section>
                         <div class="col-lg-10 col-xl-9 mx-auto">
                             <div class="cardborder-0 shadow rounded-3 overflow-hidden">
-                                <form method="post" asp-action="DownloadFileDeportament">
-                                    <div class="card-body p-4 p-sm-5">
+                                <div class="card-body p-4 p-sm-5">
+                                    <form method="post" asp-action="DownloadFileDeportament">
                                         <h5 class="card-title text-center mb-5 fw-light fs-5">@user.Departament</h5>
 
                                         <input type="hidden" id="departmentNameInput" asp-for="Name" value="@user.Departament"/>
-                                        
+
                                         @foreach (var item in _context.Departments.FirstOrDefault(x => x.Name == user.Departament).PathsToFiles)
                                         {
                                             <div class="form-check">
@@ -39,17 +39,53 @@
                                         <div class="d-grid mb-2" style="margin-top: 10px;">
                                             <button class="btn btn-primary" Color="Color.Primary" type="submit">Скачать</button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+
+                                    <form method="post" enctype="multipart/form-data" asp-action="AddFileToDepartament" asp-controller="Admin" asp-route-isAdmin="false">
+                                        <div class="mb-3">
+                                            <input type="file" multiple class="form-control" aria-label="Выберите файл" asp-for="Files" required>
+                                            <div class="invalid-feedback">Файл не выбран</div>
+                                        </div>
+
+                                        <input type="hidden" id="departmentNameInput" asp-for="Name" value="@user.Departament"/>
+
+                                        <div class="d-grid mb-2" style="margin-top: 10px;">
+                                            <button class="btn btn-primary" Color="Color.Primary" type="submit">Загруить</button>
+                                        </div>
+
+                                        <div class="d-grid mb-2" style="margin-top: 10px;">
+                                            <button class="btn btn-primary" Color="Color.Primary" type="submit" 
+                                                    data-bs-toggle="modal" data-bs-target="#removeFileModal">Удалить файл</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
-        }
-        else
-        {
             
+            <div class="modal fade" id="removeFileModal" tabindex="-1" aria-labelledby="removeFileModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removeFileModalLabel">Изменить</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                        </div>
+                        <form method="post" asp-action="RemoveFileFromDepartament" asp-controller="Admin" asp-route-isAdmin="false">
+                            <input type="hidden" asp-for="Name" value="@user.Departament"/>
+                            <div class="modal-body">
+                                <input class="form-control" aria-required="true" placeholder="Напишите название файла, чтобы его удалить"
+                                       style="margin-top: 10px;" asp-for="FileName"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <button type="submit" class="btn btn-primary">Удалить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         }
     }
 }
